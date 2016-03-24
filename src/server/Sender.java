@@ -1,5 +1,8 @@
 package server;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class Sender implements Runnable {
@@ -7,17 +10,24 @@ public class Sender implements Runnable {
 	
 	public Sender(SendQueue q) {
 		que = q;
-		que.set(new Message(new User("FIVE","0") , "NINE") );
+		
 	}
 	@Override
 	public void run() {
 		Message m;
+		ObjectOutputStream out;
 		while (true) {
 			try {
 				m = que.get();
 				System.out.println(m.getUser().getUsername() + " says " + m.getMessage());
+				
+				out = new ObjectOutputStream( m.getUser().getSocket().getOutputStream() );
+				out.writeObject(m.getMessage());
+				
+				
+				
 				//insert code to send the message
-			} catch (InterruptedException e) {
+			} catch (InterruptedException | IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} finally {

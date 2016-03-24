@@ -27,7 +27,7 @@ public class Accepter implements Runnable {
 		while(true) {
 			try {
 				executor.execute(  new ClientThread(incoming.accept(), sendQueue, allUsers)  );
-				
+				System.out.println("New User");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

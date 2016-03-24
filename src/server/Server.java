@@ -9,7 +9,10 @@ public class Server {
 	public static void main(String[] args) throws InterruptedException {
 		SendQueue sendQueue = new SendQueue();
 		UserDatabase userDatabase = new UserDatabase( sendQueue );
+		userDatabase.addUser("Ant", "pass");
 		//Scanner in = new Scanner(System.in);
+		
+		
 		ExecutorService executor = Executors.newCachedThreadPool();
 		Sender sender = new Sender(sendQueue);
 		executor.execute(sender);

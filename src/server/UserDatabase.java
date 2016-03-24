@@ -17,7 +17,7 @@ public class UserDatabase {
 	
 	public User findUser(String name) {
 		int i =0;
-		while (i < users.size() && users.get(i).getUsername() != name) i++;
+		while (i < users.size() && !users.get(i).getUsername().equals(name ) ) i++;
 		if(i < users.size()) return users.get(i);
 		else return null;
 	}
