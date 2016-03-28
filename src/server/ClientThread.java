@@ -47,6 +47,7 @@ public class ClientThread implements Runnable {
 			while (true) {
 				//set up the socket associated with the fake user to send back messages with the queue
 				user.setOutput(out);
+				user.setLoggedIn(true);
 				//read in a messaage form them
 				message = (String)in.readObject();
 				parts = message.split("\t", 3);
@@ -108,26 +109,36 @@ public class ClientThread implements Runnable {
 					user.setSubTo(parts[1]); //set subbed to a room
 					//sned a message to all logged in that he entered
 					//three parts ID, Room, MSG
-					allUsers.sendMessage("1\t" + parts[1] + "\t" + user.getUsername() + " : entered the room", parts[1]);
+					allUsers.sendMessage("0\t" + user.getUsername() + " : entered the room", parts[1]);
+					allUsers.sendMessage("1\t" + user.getSubTo() );
 					break;
 				case 8:
 					//leaving a room
-					//send a message to all that the left
-					//three parts ID, Room, MSG
-					allUsers.sendMessage("2\t"+user.getSubTo() + "\t" + user.getUsername() + " : left the room", parts[1]);
+					//send a message to all that the user left
+					//ID, message
+					allUsers.sendMessage("0\t" + user.getUsername() + " : left the room", user.getSubTo());
+					allUsers.sendMessage("2\t" + user.getSubTo() );
 					user.setSubTo(""); //set the subbed to none
 					break;
 				}	//end of switch
 			} //end of while
-		
+		System.out.println("User left caused a catch");
 		//since they left close the things
 		in.close();
 		client.close();
 			
-		} catch (ClassNotFoundException | IOException e) {
+		} catch (ClassNotFoundException | IOException | java.lang.NumberFormatException e) {
 			
 		} finally {
-		
+			System.out.println("User left caused a catch");
+			if (user != null) {
+				user.setLoggedIn(false);
+				if(!user.getSubTo().equals("")) {
+					//if the user was subbed still then remove that
+					allUsers.sendMessage("0\t" + user.getUsername() + " : left the room", user.getSubTo());
+					user.setSubTo(""); //set the subbed to none
+				} //end of if
+			} //end of if
 			
 		}//end of finally
 		

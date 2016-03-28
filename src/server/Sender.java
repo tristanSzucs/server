@@ -26,12 +26,15 @@ public class Sender implements Runnable {
 				m = que.get(); //get the next message
 				//get the output stream		
 				out = m.getUser().getOutput();
-				//write the message
-				out.writeObject(m.getMessage());
-				out.flush();
-			} catch (InterruptedException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//write the message after checking that it is ok
+				if(m.getUser().LoggedIn() && out != null) {
+					out.writeObject(m.getMessage());
+					out.flush();
+					System.out.println("Sent " + m.getMessage() );
+				}
+			} catch (InterruptedException | IOException  e) {
+
+				//e.printStackTrace();
 			} finally {
 				
 			} //end of catch

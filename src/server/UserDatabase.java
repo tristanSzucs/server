@@ -16,17 +16,17 @@ public class UserDatabase {
 	}
 	
 	//adds a new user by username and password
-	public void addUser(String name, String password) {
+	public synchronized void addUser(String name, String password) {
 		users.add(new User(name, password));
 	}
 	
 	//adds a new user that is passed in
-	public void addUser(User u) {
+	public synchronized void addUser(User u) {
 		users.add(u);
 	}
 	
 	//returns a user file based on username
-	public User findUser(String name) {
+	public synchronized User findUser(String name) {
 		//start at zero
 		int i =0;
 		//go through the array until all users are checked or it is found
@@ -36,12 +36,12 @@ public class UserDatabase {
 	}
 	
 	//remove a user based on user object
-	public void removeUser(User u) {
+	public synchronized void removeUser(User u) {
 		users.remove(u);
 	}
 	
 	//send a message to everyone subsribed to a particular room
-	public void sendMessage(String message, String room) {
+	public synchronized void  sendMessage(String message, String room) {
 		//if they attempted to send to empty return
 		if(room.equals("")) return;
 		
@@ -60,4 +60,19 @@ public class UserDatabase {
 		}
 	}
 	
+	
+	//send a message to everyone logged in
+		public synchronized void  sendMessage(String message) {
+				
+			//go through the list
+			int i = 0;	
+			User user;
+			while (i < users.size() ) {
+				//get the user at that num
+				user = users.get(i);				
+				//send them that message if they are logged in
+				if (user.LoggedIn()) toSend.set(new Message(user, message));
+				i++;
+			}
+		}
 }

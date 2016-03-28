@@ -21,14 +21,14 @@ public class User {
 	
 	
 	//this checks if that is the password
-	public boolean checkPassword(String password)  
+	public synchronized boolean checkPassword(String password)  
 	{
 	
 		return this.password.equals( password );
 	}
 	
 	//this requires an old password which if correct sets a new password
-	public boolean changePassword(String oldPass, String newPass) 
+	public synchronized boolean changePassword(String oldPass, String newPass) 
 	{
 		if ( oldPass == this.password ) 
 		{
@@ -40,40 +40,40 @@ public class User {
 	}
 	
 	//this function gets the username of the user
-	public String getUsername() {
+	public synchronized String getUsername() {
 		return userName;
 	}
 	
 	//this function returns the name of the chat room the user is currently subscribed to
-	public String getSubTo() {
+	public synchronized String getSubTo() {
 		return subTo;
 	}
 	
 	
 	//this function set the name of the chat room the user is currently subscrubed to
-	public void setSubTo(String sub) {
+	public synchronized void setSubTo(String sub) {
 		subTo = sub;
 	}
 	
 	
 	
 	//this function gets the socket currently associated with this user
-		public ObjectOutputStream getOutput() {
+		public synchronized ObjectOutputStream getOutput() {
 			return out;
 		}
 		
 		//the function sets the socket associated with this user
-		public void setOutput(ObjectOutputStream s) {
+		public synchronized void setOutput(ObjectOutputStream s) {
 			out = s;
 		}
 	
 	//this funciton checks if the user is logged in still
-	public void setLoggedIn(Boolean h) {
+	public synchronized void setLoggedIn(Boolean h) {
 		loggedIn = h;
 	}
 	
 	//the function returns is the user is logged in
-	public boolean LoggedIn() {
+	public synchronized boolean LoggedIn() {
 		return loggedIn;
 	}
 } //end of class
