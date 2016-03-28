@@ -28,7 +28,6 @@ public class ClientThread implements Runnable {
 		try {
 			in = new ObjectInputStream(client.getInputStream() );
 			out = new ObjectOutputStream(client.getOutputStream());		//creating an output thread allows an input thread on the client side
-			System.out.println("Input created");
 		} catch (IOException e) {
 			
 		} //end of catch
@@ -78,9 +77,10 @@ public class ClientThread implements Runnable {
 				} //end of if else structures
 			}//end of while
 			
-			System.out.println("Got through");
+			
 			//since they go through the user is now the logged in user
 			user = tryUser;
+			System.out.println(user.getUsername() + " logged in");
 			//set up the socket with the logged in user
 			user.setOutput(out);	
 			user.setLoggedIn(true);	//toggle the logged in value
@@ -122,7 +122,7 @@ public class ClientThread implements Runnable {
 					break;
 				}	//end of switch
 			} //end of while
-		System.out.println("User left caused a catch");
+		System.out.println(user.getUsername() + " left normally");
 		//since they left close the things
 		in.close();
 		client.close();
@@ -130,7 +130,7 @@ public class ClientThread implements Runnable {
 		} catch (ClassNotFoundException | IOException | java.lang.NumberFormatException e) {
 			
 		} finally {
-			System.out.println("User left caused a catch");
+			System.out.println(user.getUsername() + " left caused a catch");
 			if (user != null) {
 				user.setLoggedIn(false);
 				if(!user.getSubTo().equals("")) {
