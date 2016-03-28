@@ -1,6 +1,6 @@
 package server;
 
-import java.net.Socket;
+import java.io.ObjectOutputStream;
 
 /*
  * This class represents a user complete with all information needed on them
@@ -9,8 +9,8 @@ public class User {
 	private String userName;	//the username of the user
 	private String password;	//the password of the user
 	private String subTo = "";	//the room that the user is subbed to
-	private Socket socket = null;	//the socket associated with the user
 	private Boolean loggedIn;		//if the user is logged in
+	private ObjectOutputStream out;
 	
 	// a constructor that needs a user and a password
 	public User(String user, String pass) 
@@ -19,13 +19,6 @@ public class User {
 		password = pass;
 	}
 	
-	//a constuctor that also contains the socket they are communiating on	
-	public User(String user, String pass, Socket sock) 
-	{
-		userName = user;
-		password = pass;
-		socket = sock;
-	}
 	
 	//this checks if that is the password
 	public boolean checkPassword(String password)  
@@ -62,15 +55,17 @@ public class User {
 		subTo = sub;
 	}
 	
-	//this function gets the socket currently associated with this user
-	public Socket getSocket() {
-		return socket;
-	}
 	
-	//the function sets the socket associated with this user
-	public void setSocket(Socket s) {
-		socket = s;
-	}
+	
+	//this function gets the socket currently associated with this user
+		public ObjectOutputStream getOutput() {
+			return out;
+		}
+		
+		//the function sets the socket associated with this user
+		public void setOutput(ObjectOutputStream s) {
+			out = s;
+		}
 	
 	//this funciton checks if the user is logged in still
 	public void setLoggedIn(Boolean h) {

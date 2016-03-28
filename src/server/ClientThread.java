@@ -2,6 +2,7 @@ package server;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 /*
@@ -14,19 +15,22 @@ public class ClientThread implements Runnable {
 	SendQueue sendQueue;	//the queue to send messages
 	ObjectInputStream in;	//the unput stream
 	UserDatabase allUsers;	//the database of all users
+	ObjectOutputStream out;
 	
 	//the constructor requirs the socket, the send queue and the user databse
 	public ClientThread(Socket s, SendQueue que, UserDatabase users) {
 		client = s;	//the socket
 		allUsers = users;	//the users database
-		user = new User("FALSE", "FALSE", s);	//since they are not logged in a false user is made
+		user = new User("FALSE", "FALSE");	//since they are not logged in a false user is made
 			//note that it is not added to the database
 		
 		sendQueue = que;	//setup the sendQueu
 		try {
-			in = new ObjectInputStream(client.getInputStream());
+			in = new ObjectInputStream(client.getInputStream() );
+			out = new ObjectOutputStream(client.getOutputStream());		//creating an output thread allows an input thread on the client side
+			System.out.println("Input created");
 		} catch (IOException e) {
-			e.printStackTrace();
+			
 		} //end of catch
 	} //end of constructor
 	
@@ -38,10 +42,11 @@ public class ClientThread implements Runnable {
 		User tryUser;			//the user that we are going to try to log then in as
 		int id;					//the id of the type of message they are sending
 		try {
+			
 			//keep trying to log them in
 			while (true) {
 				//set up the socket associated with the fake user to send back messages with the queue
-				user.setSocket(client);
+				user.setOutput(out);
 				//read in a messaage form them
 				message = (String)in.readObject();
 				parts = message.split("\t", 3);
@@ -76,7 +81,7 @@ public class ClientThread implements Runnable {
 			//since they go through the user is now the logged in user
 			user = tryUser;
 			//set up the socket with the logged in user
-			user.setSocket(client);	
+			user.setOutput(out);	
 			user.setLoggedIn(true);	//toggle the logged in value
 			
 			
@@ -120,8 +125,9 @@ public class ClientThread implements Runnable {
 		client.close();
 			
 		} catch (ClassNotFoundException | IOException e) {
-			e.printStackTrace();
+			
 		} finally {
+		
 			
 		}//end of finally
 		

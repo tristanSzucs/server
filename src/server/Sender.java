@@ -1,9 +1,7 @@
 package server;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.concurrent.ArrayBlockingQueue;
 /*
  * This class is a thread that sends messages as they are added to the queue.
  * It is the only one that performs this action to prevent possible collisions.
@@ -16,6 +14,7 @@ public class Sender implements Runnable {
 		que = q;
 	}
 	
+	
 	@Override
 	public void run() {
 		Message m;
@@ -26,10 +25,10 @@ public class Sender implements Runnable {
 			try {
 				m = que.get(); //get the next message
 				//get the output stream		
-				out = new ObjectOutputStream( m.getUser().getSocket().getOutputStream() );
+				out = m.getUser().getOutput();
 				//write the message
 				out.writeObject(m.getMessage());
-				
+				out.flush();
 			} catch (InterruptedException | IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
