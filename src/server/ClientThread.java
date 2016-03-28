@@ -67,10 +67,7 @@ public class ClientThread implements Runnable {
 						sendQueue.set(new Message(user, "failed") );
 					}
 					
-				} else if (parts.length == 3) {
-					
-					
-				} else {
+				}  else {
 					//if anything else then they failed
 					sendQueue.set(new Message(user, "failed") );
 					
@@ -80,6 +77,8 @@ public class ClientThread implements Runnable {
 			
 			//since they go through the user is now the logged in user
 			user = tryUser;
+			allUsers.startupList(user);
+			
 			System.out.println(user.getUsername() + " logged in");
 			//set up the socket with the logged in user
 			user.setOutput(out);	

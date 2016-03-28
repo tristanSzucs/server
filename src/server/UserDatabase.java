@@ -75,4 +75,18 @@ public class UserDatabase {
 				i++;
 			}
 		}
+		
+		public synchronized void startupList(User u) {
+			//go through the list
+			int i = 0;	
+			User user;
+			while (i < users.size() ) {
+				//get the user at that num
+				user = users.get(i);				
+				//send them that message if they are logged in
+				if(!user.getSubTo().equals(""))
+					toSend.set(new Message(u, "1\t" + user.getSubTo()));
+				i++;
+			}
+		}
 }
