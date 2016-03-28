@@ -95,7 +95,7 @@ public class ClientThread implements Runnable {
 				id = Integer.parseInt(parts[0]);
 				switch(id) {
 				case 0: //send a message to all those in the room
-					allUsers.sendMessage(user.getUsername() + " : " + parts[1], user.getSubTo());
+					allUsers.sendMessage("0\t" + user.getUsername() + " : " + parts[1], user.getSubTo());
 					break;
 				case 6:
 					//log them out
@@ -104,6 +104,7 @@ public class ClientThread implements Runnable {
 					user.setSubTo("");
 					//they are leaving 
 					leaving = true;
+					break;
 				case 7:
 					//they are requesting to be subbed to a new user
 					user.setSubTo(parts[1]); //set subbed to a room
@@ -134,7 +135,8 @@ public class ClientThread implements Runnable {
 			if (user != null) {
 				user.setLoggedIn(false);
 				if(!user.getSubTo().equals("")) {
-					//if the user was subbed still then remove that
+					//if the user was subbed still then remove that user from other clients in the room
+					allUsers.sendMessage("2\t" + user.getSubTo() );
 					allUsers.sendMessage("0\t" + user.getUsername() + " : left the room", user.getSubTo());
 					user.setSubTo(""); //set the subbed to none
 				} //end of if

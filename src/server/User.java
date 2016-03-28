@@ -15,6 +15,7 @@ public class User {
 	// a constructor that needs a user and a password
 	public User(String user, String pass) 
 	{
+		loggedIn = false;
 		userName = user;
 		password = pass;
 	}
