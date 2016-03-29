@@ -26,7 +26,7 @@ public class Server {
 		if(args.length == 1) {
 			try {
 				//create a scanner for the file
-				in = new Scanner( new File(args[1]) );
+				in = new Scanner( new File(args[0]) );
 			
 				//while there is more lines
 				System.out.println("Starting readin");
@@ -41,8 +41,6 @@ public class Server {
 				System.out.println("File Not Found");
 			} 
 		} //end of if
-		
-		
 		
 		
 		in = new Scanner(System.in);
@@ -108,6 +106,8 @@ public class Server {
 				//activeUsers prints a list of all users currently logged in
 			} else if(parts[0].equals("activeUsers")){
 				userDatabase.activeUsers();
+			} else if(parts[0].equals("exit") ) {
+				break;
 			}
 			else {		//if it was not an option
 				System.out.println("Command not recognized - use help to see what commands you can use");
@@ -115,5 +115,7 @@ public class Server {
 			
 			
 		} //end of while loop
+		
+		in.close();
 	} //end of main
 } //end of class
