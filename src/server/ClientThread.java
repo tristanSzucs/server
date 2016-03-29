@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 /*
- * ClientThread is responsible for receiveing all messages a particular client sends to the server.
+ * ClientThread is responsible for recieveing all messages a particular client sends to the server.
  * It also handles the start up login
  */
 public class ClientThread implements Runnable {
@@ -17,7 +17,7 @@ public class ClientThread implements Runnable {
 	UserDatabase allUsers;	//the database of all users
 	ObjectOutputStream out;
 	
-	//the constructor requirs the socket, the send queue and the user databse
+	//the constructor requires the socket, the send queue and the user database
 	public ClientThread(Socket s, SendQueue que, UserDatabase users) {
 		client = s;	//the socket
 		allUsers = users;	//the users database
@@ -79,7 +79,6 @@ public class ClientThread implements Runnable {
 			user = tryUser;
 			allUsers.startupList(user);
 			
-			System.out.println(user.getUsername() + " logged in");
 			//set up the socket with the logged in user
 			user.setOutput(out);	
 			user.setLoggedIn(true);	//toggle the logged in value
@@ -95,14 +94,6 @@ public class ClientThread implements Runnable {
 				switch(id) {
 				case 0: //send a message to all those in the room
 					allUsers.sendMessage("0\t" + user.getUsername() + " : " + parts[1], user.getSubTo());
-					break;
-				case 6:
-					//log them out
-					user.setLoggedIn(false);
-					//they are definitly not logged in to a room
-					user.setSubTo("");
-					//they are leaving 
-					leaving = true;
 					break;
 				case 7:
 					//they are requesting to be subbed to a new user
@@ -122,7 +113,6 @@ public class ClientThread implements Runnable {
 					break;
 				}	//end of switch
 			} //end of while
-		System.out.println(user.getUsername() + " left normally");
 		//since they left close the things
 		in.close();
 		client.close();
@@ -130,7 +120,7 @@ public class ClientThread implements Runnable {
 		} catch (ClassNotFoundException | IOException | java.lang.NumberFormatException e) {
 			
 		} finally {
-			System.out.println(user.getUsername() + " left caused a catch");
+			//once the user exits a exception is caused in the socket - this loggs them out properly
 			if (user != null) {
 				user.setLoggedIn(false);
 				if(!user.getSubTo().equals("")) {

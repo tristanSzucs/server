@@ -29,15 +29,9 @@ public class User {
 	}
 	
 	//this requires an old password which if correct sets a new password
-	public synchronized boolean changePassword(String oldPass, String newPass) 
-	{
-		if ( oldPass == this.password ) 
-		{
-			password = newPass;
-			return true		;
-		}
-		else return false;
-		
+	public synchronized void changePassword( String newPass) 
+	{	
+		password = newPass;		
 	}
 	
 	//this function gets the username of the user
@@ -59,14 +53,14 @@ public class User {
 	
 	
 	//this function gets the socket currently associated with this user
-		public synchronized ObjectOutputStream getOutput() {
-			return out;
-		}
-		
-		//the function sets the socket associated with this user
-		public synchronized void setOutput(ObjectOutputStream s) {
-			out = s;
-		}
+	public synchronized ObjectOutputStream getOutput() {
+		return out;
+	}
+	
+	//the function sets the socket associated with this user
+	public synchronized void setOutput(ObjectOutputStream s) {
+		out = s;
+	}
 	
 	//this funciton checks if the user is logged in still
 	public synchronized void setLoggedIn(Boolean h) {

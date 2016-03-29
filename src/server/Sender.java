@@ -30,11 +30,9 @@ public class Sender implements Runnable {
 				if(m.getUser().LoggedIn() && out != null) {
 					out.writeObject(m.getMessage());
 					out.flush();
-					System.out.println("Sent " + m.getMessage() );
 				}
 			} catch (InterruptedException | IOException  e) {
 
-				//e.printStackTrace();
 			} finally {
 				
 			} //end of catch

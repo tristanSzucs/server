@@ -24,8 +24,7 @@ public class Accepter implements Runnable {
 		try {
 			incoming = new ServerSocket(4001);		//create the socket needed
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+						
 		}
 	}
 	
@@ -37,10 +36,8 @@ public class Accepter implements Runnable {
 				//gets a client socket, makes a new Client Thread with needed data
 				//executes the thread
 				executor.execute(  new ClientThread(incoming.accept(), sendQueue, allUsers)  );
-				System.out.println("Connected to: " + incoming.getInetAddress());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+								
 			}
 		}
 		
