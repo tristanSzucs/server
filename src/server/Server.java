@@ -115,7 +115,6 @@ public class Server {
 			
 			
 		} //end of while loop
-		
-		in.close();
+
 	} //end of main
 } //end of class
