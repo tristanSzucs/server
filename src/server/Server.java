@@ -82,6 +82,8 @@ public class Server {
 				System.out.println("use newUser username password   -- to generate a new user");
 				System.out.println("use annonce message   -- to send out a message to all rooms");
 				System.out.println("use changePassword username password   -- to change a users password");
+				System.out.println("allUsers   -- to print out a list of all users on the server");
+				System.out.println("activeUsers -- to print a list of all users that are logged in");
 				
 			}  else if(parts[0].equals("changePassword")){
 				if(parts.length == 3) {//if they inputed the correct number of params
@@ -106,8 +108,6 @@ public class Server {
 				//activeUsers prints a list of all users currently logged in
 			} else if(parts[0].equals("activeUsers")){
 				userDatabase.activeUsers();
-			} else if(parts[0].equals("exit") ) {
-				break;
 			}
 			else {		//if it was not an option
 				System.out.println("Command not recognized - use help to see what commands you can use");
